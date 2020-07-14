@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import { Alert, AlertTitle } from '@material-ui/lab';
 import {
@@ -112,6 +112,16 @@ const Home = () => {
 
   const [data, setData] = React.useState([]);
 
+  const refreshData = () => {
+    axios.get('/api/users').then((res) => {
+      //access the results here....
+      setData(res.data);
+    });
+  };
+  useEffect(() => {
+    refreshData();
+  }, []);
+
   // useEffect(() => {
   //   // code to run on component mount
   //   axios.get('/api/users').then((res) => {
@@ -119,13 +129,6 @@ const Home = () => {
   //     setData(res.data);
   //   });
   // }, []);
-
-  const refreshData = () => {
-    axios.get('/api/users').then((res) => {
-      //access the results here....
-      setData(res.data);
-    });
-  };
 
   const options = {
     filterType: 'checkbox',
