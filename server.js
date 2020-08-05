@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const socketIo = require('socket.io');
 const PORT = process.env.PORT || 5000;
 const connectDB = require('./config/db');
 
@@ -14,6 +15,10 @@ app.get('/', (req, res) => res.send('API is running successfully'));
 
 //Route definitions
 app.use('/api/users', require('./routes/api/users'));
-app.use('/api/auth', require('./routes/api/auth'));
 
-app.listen(PORT, () => console.log(`Serveris running on port ${PORT}`));
+const server = app.listen(PORT, () =>
+  console.log(`Serveris running on port ${PORT}`)
+);
+
+io = socketIo(server);
+app.use('/api', require('./routes/api/power')(io));
